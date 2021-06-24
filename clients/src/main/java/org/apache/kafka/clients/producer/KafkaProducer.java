@@ -973,6 +973,7 @@ public class KafkaProducer<K, V> implements Producer<K, V> {
                     serializedValue, headers, interceptCallback, remainingWaitMs, false, nowMs);
             }
 
+            //如果开启事务，那么就先将分区保存在 transactionManager
             if (transactionManager != null && transactionManager.isTransactional())
                 transactionManager.maybeAddPartitionToTransaction(tp);
 

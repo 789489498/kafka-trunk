@@ -307,6 +307,7 @@ public class Sender implements Runnable {
                 if (transactionManager.hasFatalError()) {
                     RuntimeException lastError = transactionManager.lastError();
                     if (lastError != null)
+                        // 将无法发送的消息Abort（放弃掉）
                         maybeAbortBatches(lastError);
                     client.poll(retryBackoffMs, time.milliseconds());
                     return;
@@ -316,6 +317,7 @@ public class Sender implements Runnable {
                 // request which will be sent below
                 transactionManager.bumpIdempotentEpochAndResetIdIfNeeded();
 
+                //发送和拉取TransactionalRequest
                 if (maybeSendAndPollTransactionalRequest()) {
                     return;
                 }
@@ -439,13 +441,16 @@ public class Sender implements Runnable {
      * Returns true if a transactional request is sent or polled, or if a FindCoordinator request is enqueued
      */
     private boolean maybeSendAndPollTransactionalRequest() {
+        // 如果有正在发送的，则直接返回true
         if (transactionManager.hasInFlightRequest()) {
             // as long as there are outstanding transactional requests, we simply wait for them to return
             client.poll(retryBackoffMs, time.milliseconds());
             return true;
         }
 
+        //如果有事务回滚的或者回滚失败的
         if (transactionManager.hasAbortableError() || transactionManager.isAborting()) {
+            //accumulator已经有准备已经完成的（需要进行发送了）
             if (accumulator.hasIncomplete()) {
                 // Attempt to get the last error that caused this abort.
                 RuntimeException exception = transactionManager.lastError();
@@ -458,51 +463,67 @@ public class Sender implements Runnable {
             }
         }
 
+        //事务如果已经处于 COMMITTING_TRANSACTION、ABORTING_TRANSACTION状态 且不具有回写主存的线程
         if (transactionManager.isCompleting() && !accumulator.flushInProgress()) {
             // There may still be requests left which are being retried. Since we do not know whether they had
             // been successfully appended to the broker log, we must resend them until their final status is clear.
             // If they had been appended and we did not receive the error, then our sequence number would no longer
             // be correct which would lead to an OutOfSequenceException.
+            //则记录一个回写线程的个数
             accumulator.beginFlush();
         }
 
         TransactionManager.TxnRequestHandler nextRequestHandler = transactionManager.nextRequest(accumulator.hasIncomplete());
+        //如果TxnRequestHandler 事务处理器已经都执行完了，则返回false
         if (nextRequestHandler == null)
             return false;
 
+        //如果事务处理器TxnRequestHandler还没执行完，构建请求，准备发起请求
         AbstractRequest.Builder<?> requestBuilder = nextRequestHandler.requestBuilder();
         Node targetNode = null;
         try {
             FindCoordinatorRequest.CoordinatorType coordinatorType = nextRequestHandler.coordinatorType();
+            //选取coordinatorType类型，只有AbstractRequest为TxnOffsetCommitHandler的时候targetNode为 GC（Group Coordinator）
+            // 其余AbstractRequest 都为TC
             targetNode = coordinatorType != null ?
                     transactionManager.coordinator(coordinatorType) :
                     client.leastLoadedNode(time.milliseconds());
             if (targetNode != null) {
+                //该节点coordinator类型的是否已经准备好？
+                //没准备好的话则返回true
                 if (!awaitNodeReady(targetNode, coordinatorType)) {
                     log.trace("Target node {} not ready within request timeout, will retry when node is ready.", targetNode);
                     maybeFindCoordinatorAndRetry(nextRequestHandler);
                     return true;
                 }
             } else if (coordinatorType != null) {
+                // 需要重新寻找相应类型的Coordinator
+                // 这里会把请求继续加入到pendingRequests中
                 log.trace("Coordinator not known for {}, will retry {} after finding coordinator.", coordinatorType, requestBuilder.apiKey());
                 maybeFindCoordinatorAndRetry(nextRequestHandler);
                 return true;
             } else {
+                // 只有FindCoordinatorHandler 和 InitProducerIdHandler且事务还没初始化时，才会到这里
                 log.trace("No nodes available to send requests, will poll and retry when until a node is ready.");
                 transactionManager.retry(nextRequestHandler);
+                // 开始发送请求
                 client.poll(retryBackoffMs, time.milliseconds());
                 return true;
             }
-
+            // 该Node节点已经准备好
             if (nextRequestHandler.isRetry())
+                // 如果RequestHandler 需要重试的话，需要等待retryBackoffMs 才会继续执行
                 time.sleep(nextRequestHandler.retryBackoffMs());
 
             long currentTimeMs = time.milliseconds();
             ClientRequest clientRequest = client.newClientRequest(targetNode.idString(), requestBuilder, currentTimeMs,
                 true, requestTimeoutMs, nextRequestHandler);
             log.debug("Sending transactional request {} to node {} with correlation ID {}", requestBuilder, targetNode, clientRequest.correlationId());
+            // 构建NetworkSend、KafkaChannel 准备发送
             client.send(clientRequest, currentTimeMs);
+            // 设置正在发送的CorrelationId为correlationId   （inFlightRequestCorrelationId！=-1  则说明正在发送请求）
             transactionManager.setInFlightCorrelationId(clientRequest.correlationId());
+            //开始发送RequestHandler 请求
             client.poll(retryBackoffMs, time.milliseconds());
             return true;
         } catch (IOException e) {

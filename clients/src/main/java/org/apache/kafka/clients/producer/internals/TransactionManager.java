@@ -139,9 +139,9 @@ public class TransactionManager {
                 return OptionalInt.empty();
         }
 
-        private void startSequencesAtBeginning(TopicPartition topicPartition, ProducerIdAndEpoch newProducerIdAndEpoch) {
+        private void startSequencesAtBeginning(TopicPartition tp, ProducerIdAndEpoch newProducerIdAndEpoch) {
             final PrimitiveRef.IntRef sequence = PrimitiveRef.ofInt(0);
-            TopicPartitionEntry topicPartitionEntry = getPartition(topicPartition);
+            TopicPartitionEntry topicPartitionEntry = getPartition(tp);
             topicPartitionEntry.resetSequenceNumbers(inFlightBatch -> {
                 inFlightBatch.resetProducerState(newProducerIdAndEpoch, sequence.value, inFlightBatch.isTransactional());
                 sequence.value += inFlightBatch.recordCount;
@@ -207,8 +207,11 @@ public class TransactionManager {
     private final Set<TopicPartition> partitionsToRewriteSequences;
 
     private final PriorityQueue<TxnRequestHandler> pendingRequests;
+    //新增的上传分区集合
     private final Set<TopicPartition> newPartitionsInTransaction;
+    //本次事务已经上传的分区集合
     private final Set<TopicPartition> pendingPartitionsInTransaction;
+    //本次事务涉及到的所有分区集合
     private final Set<TopicPartition> partitionsInTransaction;
     private TransactionalRequestResult pendingResult;
 
@@ -317,14 +320,18 @@ public class TransactionManager {
 
     synchronized TransactionalRequestResult initializeTransactions(ProducerIdAndEpoch producerIdAndEpoch) {
         boolean isEpochBump = producerIdAndEpoch != ProducerIdAndEpoch.NONE;
+        // handleCachedTransactionRequestResult方法 会判断pendingResult不为空且当前事务状态为 INITIALIZING 状态 则直接返回状态
+        // 否则 构建 初始化ProductId的请求等方法。
         return handleCachedTransactionRequestResult(() -> {
             // If this is an epoch bump, we will transition the state as part of handling the EndTxnRequest
+            // isEpochBump 是否有获取过producerId
             if (!isEpochBump) {
                 transitionTo(State.INITIALIZING);
                 log.info("Invoking InitProducerId for the first time in order to acquire a producer ID");
             } else {
                 log.info("Invoking InitProducerId with current producer ID and epoch {} in order to bump the epoch", producerIdAndEpoch);
             }
+            //构建 初始化ProductId的请求
             InitProducerIdRequestData requestData = new InitProducerIdRequestData()
                     .setTransactionalId(transactionalId)
                     .setTransactionTimeoutMs(transactionTimeoutMs)
@@ -332,14 +339,18 @@ public class TransactionManager {
                     .setProducerEpoch(producerIdAndEpoch.epoch);
             InitProducerIdHandler handler = new InitProducerIdHandler(new InitProducerIdRequest.Builder(requestData),
                     isEpochBump);
+            // 把请求加入到请求队列中，等待Sender线程发送
             enqueueRequest(handler);
             return handler.result;
         }, State.INITIALIZING);
     }
 
     public synchronized void beginTransaction() {
+        // 确认TransactionManager不为null
         ensureTransactional();
+        //当前状态不为ABORTABLE_ERROR、FATAL_ERROR状态
         maybeFailWithError();
+        //把事务状态转为IN_TRANSACTION
         transitionTo(State.IN_TRANSACTION);
     }
 
@@ -411,11 +422,14 @@ public class TransactionManager {
     }
 
     public synchronized void maybeAddPartitionToTransaction(TopicPartition topicPartition) {
+        //检查partitionsInTransaction 、newPartitionsInTransaction 、pendingPartitionsInTransaction 中是否存在该topicPartition
         if (isPartitionAdded(topicPartition) || isPartitionPendingAdd(topicPartition))
+            //如果已经上传过这个分区，或者正在上传这个分区，那么直接返回
             return;
 
         log.debug("Begin adding new partition {} to transaction", topicPartition);
         topicPartitionBookkeeper.addPartition(topicPartition);
+        //添加到需要上传的集合
         newPartitionsInTransaction.add(topicPartition);
     }
 
@@ -876,7 +890,6 @@ public class TransactionManager {
                     nextRequestHandler.requestBuilder());
             return null;
         }
-
         if (nextRequestHandler.isEndTxn() && !transactionStarted) {
             nextRequestHandler.result.done();
             if (currentState != State.FATAL_ERROR) {
