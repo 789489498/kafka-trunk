@@ -381,7 +381,10 @@ public class TransactionManager {
         // If the error is an INVALID_PRODUCER_ID_MAPPING error, the server will not accept an EndTxnRequest, so skip
         // directly to InitProducerId. Otherwise, we must first abort the transaction, because the producer will be
         // fenced if we directly call InitProducerId.
+        // 如果错误不是 InvalidPidMappingException 异常，则构建事务结束请求
+        // 生产者ID 与 Transaction ID 没有关联(Transaction ID 会与Product Id 关联)
         if (!(lastError instanceof InvalidPidMappingException)) {
+            // 构建EndTxnRequest请求，发送事务结束
             EndTxnRequest.Builder builder = new EndTxnRequest.Builder(
                     new EndTxnRequestData()
                             .setTransactionalId(transactionalId)
@@ -390,24 +393,29 @@ public class TransactionManager {
                             .setCommitted(transactionResult.id));
 
             EndTxnHandler handler = new EndTxnHandler(builder);
+            //加入到请求队列中
             enqueueRequest(handler);
+
+            //如果不需要更新换代到话则返回result
             if (!epochBumpRequired) {
                 return handler.result;
             }
         }
-
+        // 否则初始化事务
         return initializeTransactions(this.producerIdAndEpoch);
     }
 
-    public synchronized TransactionalRequestResult sendOffsetsToTransaction(final Map<TopicPartition, OffsetAndMetadata> offsets,
-                                                                            final ConsumerGroupMetadata groupMetadata) {
+    public synchronized TransactionalRequestResult sendOffsetsToTransaction(final Map<TopicPartition, OffsetAndMetadata> offsets, final ConsumerGroupMetadata groupMetadata) {
+        //确定事务可用
         ensureTransactional();
+        //失败检查
         maybeFailWithError();
         if (currentState != State.IN_TRANSACTION)
             throw new KafkaException("Cannot send offsets to transaction either because the producer is not in an " +
                     "active transaction");
 
         log.debug("Begin adding offsets {} for consumer group {} to transaction", offsets, groupMetadata);
+        //构建 事务消费位置添加 请求
         AddOffsetsToTxnRequest.Builder builder = new AddOffsetsToTxnRequest.Builder(
             new AddOffsetsToTxnRequestData()
                 .setTransactionalId(transactionalId)
@@ -416,7 +424,7 @@ public class TransactionManager {
                 .setGroupId(groupMetadata.groupId())
         );
         AddOffsetsToTxnHandler handler = new AddOffsetsToTxnHandler(builder, offsets, groupMetadata);
-
+        //加入到请求队列
         enqueueRequest(handler);
         return handler.result;
     }
@@ -891,6 +899,7 @@ public class TransactionManager {
             return null;
         }
         if (nextRequestHandler.isEndTxn() && !transactionStarted) {
+            //把latch置为0，表示发送成功
             nextRequestHandler.result.done();
             if (currentState != State.FATAL_ERROR) {
                 log.debug("Not sending EndTxn for completed transaction since no partitions " +
@@ -1164,13 +1173,14 @@ public class TransactionManager {
     private TxnOffsetCommitHandler txnOffsetCommitHandler(TransactionalRequestResult result,
                                                           Map<TopicPartition, OffsetAndMetadata> offsets,
                                                           ConsumerGroupMetadata groupMetadata) {
+        //遍历所有Partition，把每个Partition中的offset记录到pendingTxnOffsetCommits中
         for (Map.Entry<TopicPartition, OffsetAndMetadata> entry : offsets.entrySet()) {
             OffsetAndMetadata offsetAndMetadata = entry.getValue();
             CommittedOffset committedOffset = new CommittedOffset(offsetAndMetadata.offset(),
                     offsetAndMetadata.metadata(), offsetAndMetadata.leaderEpoch());
             pendingTxnOffsetCommits.put(entry.getKey(), committedOffset);
         }
-
+        //构建事务消费位置提交请求
         final TxnOffsetCommitRequest.Builder builder =
             new TxnOffsetCommitRequest.Builder(transactionalId,
                 groupMetadata.groupId(),

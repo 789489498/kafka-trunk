@@ -697,6 +697,7 @@ public class KafkaProducer<K, V> implements Producer<K, V> {
         throwIfProducerClosed();
         TransactionalRequestResult result = transactionManager.sendOffsetsToTransaction(offsets, groupMetadata);
         sender.wakeup();
+        //利用CountDownLatch（1） 来实现await，
         result.await(maxBlockTimeMs, TimeUnit.MILLISECONDS);
     }
 
