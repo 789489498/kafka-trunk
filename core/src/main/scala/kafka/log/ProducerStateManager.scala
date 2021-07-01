@@ -145,6 +145,7 @@ private[log] class ProducerStateEntry(val producerId: Long,
   }
 
   // Return the batch metadata of the cached batch having the exact sequence range, if any.
+  // 根据firstSeq  lastSeq 过滤出与之相同的
   def batchWithSequenceRange(firstSeq: Int, lastSeq: Int): Option[BatchMetadata] = {
     val duplicate = batchMetadata.filter { metadata =>
       firstSeq == metadata.firstSeq && lastSeq == metadata.lastSeq

@@ -469,9 +469,13 @@ class LogSegment private[log] (val log: FileRecords,
   @threadsafe
   def flush(): Unit = {
     LogFlushStats.logFlushTimer.time {
+      //把日志flush到磁盘
       log.flush()
+      //把offset 索引flush到磁盘
       offsetIndex.flush()
+      //把时间  索引flush到磁盘
       timeIndex.flush()
+      //
       txnIndex.flush()
     }
   }

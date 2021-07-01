@@ -561,6 +561,7 @@ class ReplicaManager(val config: KafkaConfig,
                     recordConversionStatsCallback: Map[TopicPartition, RecordConversionStats] => Unit = _ => ()): Unit = {
     if (isValidRequiredAcks(requiredAcks)) {
       val sTime = time.milliseconds
+      // 将消息附加到本地副本日志
       val localProduceResults = appendToLocalLog(internalTopicsAllowed = internalTopicsAllowed,
         origin, entriesPerPartition, requiredAcks)
       debug("Produce to local log in %d ms".format(time.milliseconds - sTime))
@@ -581,6 +582,7 @@ class ReplicaManager(val config: KafkaConfig,
               result.info.leaderHwChange match {
                 case LeaderHwChange.Increased =>
                   // some delayed operations may be unblocked after HW changed
+                  // 水位改变后，一些延迟的操作可能会被解锁
                   delayedProducePurgatory.checkAndComplete(requestKey)
                   delayedFetchPurgatory.checkAndComplete(requestKey)
                   delayedDeleteRecordsPurgatory.checkAndComplete(requestKey)
@@ -846,7 +848,7 @@ class ReplicaManager(val config: KafkaConfig,
   //
   // 1. required acks = -1
   // 2. there is data to append
-  // 3. at least one partition append was successful (fewer errors than partitions)
+  // 3. 至少一个分区是追加成功的 (fewer errors than partitions)，错误比分区数量少
   private def delayedProduceRequestRequired(requiredAcks: Short,
                                             entriesPerPartition: Map[TopicPartition, MemoryRecords],
                                             localProduceResults: Map[TopicPartition, LogAppendResult]): Boolean = {
@@ -887,6 +889,8 @@ class ReplicaManager(val config: KafkaConfig,
       brokerTopicStats.allTopicsStats.totalProduceRequestRate.mark()
 
       // reject appending to internal topics if it is not allowed
+      // 如果不允许，则拒绝附加到内部Topic
+      // 内部topic 只有__transaction_state、__consumer_offsets
       if (Topic.isInternal(topicPartition.topic) && !internalTopicsAllowed) {
         (topicPartition, LogAppendResult(
           LogAppendInfo.UnknownLogAppendInfo,

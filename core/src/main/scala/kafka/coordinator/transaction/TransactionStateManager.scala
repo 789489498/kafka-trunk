@@ -84,6 +84,7 @@ class TransactionStateManager(brokerId: Int,
   type SendTxnMarkersCallback = (Int, TransactionResult, TransactionMetadata, TxnTransitMetadata) => Unit
 
   /** shutting down flag */
+    // 优雅关闭的标识位
   private val shuttingDown = new AtomicBoolean(false)
 
   /** lock protecting access to the transactional metadata cache, including loading and leaving partition sets */
@@ -93,6 +94,7 @@ class TransactionStateManager(brokerId: Int,
   private[transaction] val loadingPartitions: mutable.Set[TransactionPartitionAndLeaderEpoch] = mutable.Set()
 
   /** transaction metadata cache indexed by assigned transaction topic partition ids */
+    // key  为partition ID  value 为TxnMetadataCacheEntry
   private[transaction] val transactionMetadataCache: mutable.Map[Int, TxnMetadataCacheEntry] = mutable.Map()
 
   /** number of partitions for the transaction log topic */
@@ -234,7 +236,9 @@ class TransactionStateManager(brokerId: Int,
   private def getAndMaybeAddTransactionState(transactionalId: String,
                                              createdTxnMetadataOpt: Option[TransactionMetadata]): Either[Errors, Option[CoordinatorEpochAndTxnMetadata]] = {
     inReadLock(stateLock) {
+      // 寻找存储transactionalId的partition
       val partitionId = partitionFor(transactionalId)
+      // 如果Partitions 正在加载中，则partition还无法访问
       if (loadingPartitions.exists(_.txnPartitionId == partitionId))
         Left(Errors.COORDINATOR_LOAD_IN_PROGRESS)
       else {
@@ -246,7 +250,7 @@ class TransactionStateManager(brokerId: Int,
                   .getOrElse(createdTxnMetadata)
               }
             }
-            Right(txnMetadata.map(CoordinatorEpochAndTxnMetadata(cacheEntry.coordinatorEpoch, _)))
+            Right(txnMetadata.map(CoordinatorEpochAndTxnMetadata(cacheEntry.coordinatorEpoch,_)))
 
           case None =>
             Left(Errors.NOT_COORDINATOR)
@@ -477,6 +481,14 @@ class TransactionStateManager(brokerId: Int,
       throw new KafkaException(s"Transaction topic number of partitions has changed from $transactionTopicPartitionCount to $curTransactionTopicPartitionCount")
   }
 
+  /**
+   * 用于追加事务日志记录
+   * @param transactionalId transactionalId
+   * @param coordinatorEpoch 第几代coordinator
+   * @param newMetadata 新的元数据
+   * @param responseCallback 回调函数
+   * @param retryOnError
+   */
   def appendTransactionToLog(transactionalId: String,
                              coordinatorEpoch: Int,
                              newMetadata: TxnTransitMetadata,
@@ -484,11 +496,15 @@ class TransactionStateManager(brokerId: Int,
                              retryOnError: Errors => Boolean = _ => false): Unit = {
 
     // generate the message for this transaction metadata
+    // 生成record的key
     val keyBytes = TransactionLog.keyToBytes(transactionalId)
+    // 构建TransactionLogValue对象
     val valueBytes = TransactionLog.valueToBytes(newMetadata)
+    // 时间戳
     val timestamp = time.milliseconds()
-
+    // 生产record
     val records = MemoryRecords.withRecords(TransactionLog.EnforcedCompressionType, new SimpleRecord(timestamp, keyBytes, valueBytes))
+    // 构建Partition对象，partitionFor(transactionalId) 可能是寻找该事务存储在 __transaction_state partition leader
     val topicPartition = new TopicPartition(Topic.TRANSACTION_STATE_TOPIC_NAME, partitionFor(transactionalId))
     val recordsPerPartition = Map(topicPartition -> records)
 
@@ -607,18 +623,19 @@ class TransactionStateManager(brokerId: Int,
       // an old coordinator epoch that can still be successfully replicated on followers and make the log in a bad state.
       getTransactionState(transactionalId) match {
         case Left(err) =>
+          // 返回失败，抛出异常
           responseCallback(err)
 
         case Right(None) =>
-          // the coordinator metadata has been removed, reply to client immediately with NOT_COORDINATOR
+          // coordinator 元数据已被删除，立即用 NOT_COORDINATOR 回复客户端
           responseCallback(Errors.NOT_COORDINATOR)
 
         case Right(Some(epochAndMetadata)) =>
           val metadata = epochAndMetadata.transactionMetadata
-
+          //是否可以append 数据
           val append: Boolean = metadata.inLock {
             if (epochAndMetadata.coordinatorEpoch != coordinatorEpoch) {
-              // the coordinator epoch has changed, reply to client immediately with NOT_COORDINATOR
+              // coordinator epoch(时代) 已经改变，立即用 NOT_COORDINATOR 回复客户端
               responseCallback(Errors.NOT_COORDINATOR)
               false
             } else {
@@ -652,6 +669,8 @@ class TransactionStateManager(brokerId: Int,
 }
 
 
+//metadataPerTransactionalId 参数是Pool类型,实际上是ConcurrentHashMap封装，key 为TransactionalId value为TransactionMetadata
+//coordinatorEpoch coordinator的版本
 private[transaction] case class TxnMetadataCacheEntry(coordinatorEpoch: Int,
                                                       metadataPerTransactionalId: Pool[String, TransactionMetadata]) {
   override def toString: String = {

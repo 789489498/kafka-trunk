@@ -158,13 +158,13 @@ private[transaction] case class TxnTransitMetadata(producerId: Long,
   *
   * @param producerId            producer id
   * @param lastProducerId        last producer id assigned to the producer
-  * @param producerEpoch         current epoch of the producer
-  * @param lastProducerEpoch     last epoch of the producer
-  * @param txnTimeoutMs          timeout to be used to abort long running transactions
-  * @param state                 current state of the transaction
-  * @param topicPartitions       current set of partitions that are part of this transaction
-  * @param txnStartTimestamp     time the transaction was started, i.e., when first partition is added
-  * @param txnLastUpdateTimestamp   updated when any operation updates the TransactionMetadata. To be used for expiration
+  * @param producerEpoch         当前生产者的时代
+  * @param lastProducerEpoch     最后一代生产者
+  * @param txnTimeoutMs          事务超时时间
+  * @param state                 当前事务状态
+  * @param topicPartitions       该事务涉及的分区列表
+  * @param txnStartTimestamp     事务凯斯好时间
+  * @param txnLastUpdateTimestamp   事务更新时间 ，用于过期时间判断
   */
 @nonthreadsafe
 private[transaction] class TransactionMetadata(val transactionalId: String,

@@ -1208,16 +1208,19 @@ class Log(@volatile private var _dir: File,
 
           // now that we have valid records, offsets assigned, and timestamps updated, we need to
           // validate the idempotent/transactional state of the producers and collect some metadata
+          //现在我们有有效的记录、分配的偏移量和更新的时间戳，我们需要验证生产者的幂等/事务状态并收集一些元数据
           val (updatedProducers, completedTxns, maybeDuplicate) = analyzeAndValidateProducerState(
             logOffsetMetadata, validRecords, origin)
 
           maybeDuplicate match {
+              // 这里说明发现了重复的BatchMetadata
             case Some(duplicate) =>
               appendInfo.firstOffset = Some(duplicate.firstOffset)
               appendInfo.lastOffset = duplicate.lastOffset
               appendInfo.logAppendTime = duplicate.timestamp
               appendInfo.logStartOffset = logStartOffset
             case None =>
+              // 这里说明没有发现重复的BatchMetadata
               segment.append(largestOffset = appendInfo.lastOffset,
                 largestTimestamp = appendInfo.maxTimestamp,
                 shallowOffsetOfMaxTimestamp = appendInfo.offsetOfMaxTimestamp,
@@ -1253,7 +1256,7 @@ class Log(@volatile private var _dir: File,
                 s"first offset: ${appendInfo.firstOffset}, " +
                 s"next offset: ${nextOffsetMetadata.messageOffset}, " +
                 s"and messages: $validRecords")
-
+              // 这里是判断 flush 触发点，如果 为flush的消息>=flush.messages参数 则flush
               if (unflushedMessages >= config.flushInterval) flush()
           }
           appendInfo
@@ -1998,10 +2001,12 @@ class Log(@volatile private var _dir: File,
       if (offset > this.recoveryPoint) {
         debug(s"Flushing log up to offset $offset, last flushed: $lastFlushTime,  current time: ${time.milliseconds()}, " +
           s"unflushed: $unflushedMessages")
+        // 真正到 flush 方法，从recoveryPoint->offset 这个区间的进行flush
         logSegments(this.recoveryPoint, offset).foreach(_.flush())
 
         lock synchronized {
           checkIfMemoryMappedBufferClosed()
+          // 更新恢复点为offset
           if (offset > this.recoveryPoint) {
             this.recoveryPoint = offset
             lastFlushedTime.set(time.milliseconds)
