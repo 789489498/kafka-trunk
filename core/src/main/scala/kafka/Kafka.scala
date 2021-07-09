@@ -64,6 +64,10 @@ object Kafka extends Logging {
   }
 
   def main(args: Array[String]): Unit = {
+    val args = Array("""/Users/a2021/IdeaProjects/kafka-trunk/config/server.properties""")
+    System.setProperty("log4j.configuration", """file:/Users/a2021/IdeaProjects/kafka-trunk/config/log4j.properties""")
+    //下面的不修改
+    trace("""start log """)
     try {
       val serverProps = getPropsFromArgs(args)
       val kafkaServerStartable = KafkaServerStartable.fromProps(serverProps)
@@ -82,6 +86,8 @@ object Kafka extends Logging {
 
       kafkaServerStartable.startup()
       kafkaServerStartable.awaitShutdown()
+//      System.in.read()
+//      kafkaServerStartable.shutdown()
     }
     catch {
       case e: Throwable =>

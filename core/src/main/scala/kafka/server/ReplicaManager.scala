@@ -566,6 +566,7 @@ class ReplicaManager(val config: KafkaConfig,
         origin, entriesPerPartition, requiredAcks)
       debug("Produce to local log in %d ms".format(time.milliseconds - sTime))
 
+      // key 为topic name  value为 ProducePartitionStatus对象
       val produceStatus = localProduceResults.map { case (topicPartition, result) =>
         topicPartition ->
                 ProducePartitionStatus(

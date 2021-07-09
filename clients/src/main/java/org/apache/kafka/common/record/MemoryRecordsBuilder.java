@@ -262,6 +262,7 @@ public class MemoryRecordsBuilder implements AutoCloseable {
         }
         this.producerId = producerId;
         this.producerEpoch = producerEpoch;
+        // 可以实现幂等性的参数
         this.baseSequence = baseSequence;
         this.isTransactional = isTransactional;
     }

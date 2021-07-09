@@ -1107,6 +1107,7 @@ class Log(@volatile private var _dir: File,
           checkIfMemoryMappedBufferClosed()
           if (assignOffsets) {
             // assign offsets to the message set
+            // 确认本地日志写的offset
             val offset = new LongRef(nextOffsetMetadata.messageOffset)
             appendInfo.firstOffset = Some(offset.value)
             val now = time.milliseconds
