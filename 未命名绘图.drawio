@@ -1,9 +1,45 @@
-<mxfile host="app.diagrams.net" modified="2023-06-12T06:03:48.341Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" version="21.3.8" etag="wqmlQEtYySPSkRQLZ1BR" type="github">
+<mxfile host="app.diagrams.net" modified="2023-07-06T03:19:30.634Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="hBU1NIfEuIj-uwhNofb8" version="21.3.8" type="github">
   <diagram name="第 1 页" id="fXx2ZxRDhEUlP5MeCbJL">
-    <mxGraphModel>
+    <mxGraphModel dx="1242" dy="711" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-1" value="ILoanRequestService" style="swimlane;startSize=20;html=1;points=[[0,0,0,0,0],[0,0.25,0,0,0],[0,0.5,0,0,0],[0,0.75,0,0,0],[0,1,0,0,0],[0.25,0,0,0,0],[0.25,1,0,0,0],[0.5,0,0,0,0],[0.5,1,0,0,0],[0.75,0,0,0,0],[0.75,1,0,0,0],[1,0,0,0,0],[1,0.25,0,0,0],[1,0.5,0,0,0],[1,0.75,0,0,0],[1,1,0,0,0]];" vertex="1" parent="1">
+          <mxGeometry x="100" y="110" width="200" height="540" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-1">
+          <mxGeometry x="14" y="160" width="166" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-3" value="根据url地址判断回调类型，末尾为authNotify是认证通知；creditNotify是授信通知；loanNotify是放款通知；repayPlanNotify是还款通知" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-1">
+          <mxGeometry x="41.5" y="169.5" width="122.5" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-4" value="基于工厂模式获取实现类，走通用逻辑的产品从zk获取列表，否则基于ILoanNotifyService的getProductId获取" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-1">
+          <mxGeometry x="41.5" y="79" width="130" height="81.5" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-5" value="authNotify" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-1">
+          <mxGeometry x="62.75" y="300" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-6" value="creditNotify" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-1">
+          <mxGeometry x="62.75" y="350" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-7" value="loanNotify" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-1">
+          <mxGeometry x="62.75" y="400" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-8" value="repayPlanNotify" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-1">
+          <mxGeometry x="62.75" y="450" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-17" value="Pool" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330.00000000000045" y="90" width="360" height="480" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-18" value="Lane 1" style="swimlane;startSize=20;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-17">
+          <mxGeometry y="20" width="120" height="460" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-19" value="Lane 2" style="swimlane;startSize=20;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-17">
+          <mxGeometry x="120" y="20" width="120" height="460" as="geometry" />
+        </mxCell>
+        <mxCell id="UiT3P8jMVZMeX-XvBNfT-20" value="Lane 3" style="swimlane;startSize=20;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-17">
+          <mxGeometry x="240" y="20" width="120" height="460" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
