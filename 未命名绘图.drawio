@@ -1,30 +1,9 @@
-<mxfile host="app.diagrams.net" modified="2023-07-06T05:53:25.586Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="FBzaPXkWc-6ZLJrE8Vgh" version="21.6.1" type="github">
+<mxfile host="app.diagrams.net" modified="2023-07-06T05:55:43.653Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="TCC4eciC6vIoCIRaHIUF" version="21.6.1" type="github">
   <diagram name="第 1 页" id="fXx2ZxRDhEUlP5MeCbJL">
     <mxGraphModel dx="1242" dy="711" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="UiT3P8jMVZMeX-XvBNfT-1" value="ILoanRequestService" style="swimlane;startSize=20;html=1;points=[[0,0,0,0,0],[0,0.25,0,0,0],[0,0.5,0,0,0],[0,0.75,0,0,0],[0,1,0,0,0],[0.25,0,0,0,0],[0.25,1,0,0,0],[0.5,0,0,0,0],[0.5,1,0,0,0],[0.75,0,0,0,0],[0.75,1,0,0,0],[1,0,0,0,0],[1,0.25,0,0,0],[1,0.5,0,0,0],[1,0.75,0,0,0],[1,1,0,0,0]];" parent="1" vertex="1">
-          <mxGeometry x="90" y="520" width="200" height="540" as="geometry" />
-        </mxCell>
-        <mxCell id="UiT3P8jMVZMeX-XvBNfT-2" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="UiT3P8jMVZMeX-XvBNfT-1" vertex="1">
-          <mxGeometry x="14" y="160" width="166" height="350" as="geometry" />
-        </mxCell>
-        <mxCell id="UiT3P8jMVZMeX-XvBNfT-4" value="基于工厂模式获取实现类，走通用逻辑的产品从zk获取列表，否则基于ILoanNotifyService的getProductId获取" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="UiT3P8jMVZMeX-XvBNfT-1" vertex="1">
-          <mxGeometry x="41.5" y="79" width="130" height="81.5" as="geometry" />
-        </mxCell>
-        <mxCell id="UiT3P8jMVZMeX-XvBNfT-5" value="authNotify" style="rounded=0;whiteSpace=wrap;html=1;" parent="UiT3P8jMVZMeX-XvBNfT-1" vertex="1">
-          <mxGeometry x="62.75" y="300" width="80" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="UiT3P8jMVZMeX-XvBNfT-6" value="creditNotify" style="rounded=0;whiteSpace=wrap;html=1;" parent="UiT3P8jMVZMeX-XvBNfT-1" vertex="1">
-          <mxGeometry x="62.75" y="350" width="80" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="UiT3P8jMVZMeX-XvBNfT-7" value="loanNotify" style="rounded=0;whiteSpace=wrap;html=1;" parent="UiT3P8jMVZMeX-XvBNfT-1" vertex="1">
-          <mxGeometry x="62.75" y="400" width="80" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="UiT3P8jMVZMeX-XvBNfT-8" value="repayPlanNotify" style="rounded=0;whiteSpace=wrap;html=1;" parent="UiT3P8jMVZMeX-XvBNfT-1" vertex="1">
-          <mxGeometry x="62.75" y="450" width="80" height="40" as="geometry" />
-        </mxCell>
         <mxCell id="UiT3P8jMVZMeX-XvBNfT-17" value="Pool" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;" parent="1" vertex="1">
           <mxGeometry x="370.00000000000045" y="60" width="790" height="480" as="geometry" />
         </mxCell>
@@ -46,7 +25,7 @@
         <mxCell id="ggYKrRhbpDgkQSNThcsB-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="UiT3P8jMVZMeX-XvBNfT-18" source="ggYKrRhbpDgkQSNThcsB-8" target="ggYKrRhbpDgkQSNThcsB-29">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ggYKrRhbpDgkQSNThcsB-8" value="根据url构建通用vo" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-18">
+        <mxCell id="ggYKrRhbpDgkQSNThcsB-8" value="根据回调类型构建通用vo" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-18">
           <mxGeometry x="43.999999999999545" y="248" width="80" height="40" as="geometry" />
         </mxCell>
         <mxCell id="ggYKrRhbpDgkQSNThcsB-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="UiT3P8jMVZMeX-XvBNfT-18" source="ggYKrRhbpDgkQSNThcsB-26" target="ggYKrRhbpDgkQSNThcsB-8">
@@ -58,7 +37,7 @@
         <mxCell id="ggYKrRhbpDgkQSNThcsB-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="UiT3P8jMVZMeX-XvBNfT-18" source="ggYKrRhbpDgkQSNThcsB-29" target="ggYKrRhbpDgkQSNThcsB-32">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ggYKrRhbpDgkQSNThcsB-29" value="根据回调类型构建通用vo" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-18">
+        <mxCell id="ggYKrRhbpDgkQSNThcsB-29" value="根据vo内信息更新状态" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-18">
           <mxGeometry x="43.999999999999545" y="320" width="80" height="40" as="geometry" />
         </mxCell>
         <mxCell id="ggYKrRhbpDgkQSNThcsB-32" value="根据更新结果返回机构码" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UiT3P8jMVZMeX-XvBNfT-18">
