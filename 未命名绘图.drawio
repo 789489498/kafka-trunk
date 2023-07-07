@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-07-07T06:41:47.116Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="S8zxQV7YduanF5x2jyus" version="21.6.1" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2023-07-07T07:30:07.107Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="L9QEdlASEzrS7uOVudso" version="21.6.1" type="github" pages="4">
   <diagram name="第 1 页" id="fXx2ZxRDhEUlP5MeCbJL">
-    <mxGraphModel dx="3310" dy="948" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2961" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -726,6 +726,154 @@
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="-439" y="1060" as="sourcePoint" />
             <mxPoint x="-1080" y="1060" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="7V8FCNCgiSO2cORqShF7" name="第 3 页">
+    <mxGraphModel dx="1242" dy="711" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="rhlilq156XqZ_C3r0p8k-1" value="官网/wap" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sWly3a3Zr14c_P1KiaSb-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="150" width="110" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="sWly3a3Zr14c_P1KiaSb-2" value="SLS日志服务" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="250" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sWly3a3Zr14c_P1KiaSb-3" value="监控平台" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="330" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sWly3a3Zr14c_P1KiaSb-4" value="ZK配置中心" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="410" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sWly3a3Zr14c_P1KiaSb-5" value="Redis" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="500" width="90" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="dv1JwH0OtzsBpDADeT3j" name="第 4 页">
+    <mxGraphModel dx="1242" dy="711" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="YHERiSH-pq_E76-MImOJ-5" value="Pool" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130.00000000000045" y="60" width="889.9999999999995" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-6" value="畅捷智融合伙人" style="swimlane;startSize=20;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-5">
+          <mxGeometry y="20" width="210" height="780" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-6" source="YHERiSH-pq_E76-MImOJ-12" target="YHERiSH-pq_E76-MImOJ-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-12" value="开始" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-6">
+          <mxGeometry x="69.99999999999955" y="30" width="70" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-6" source="YHERiSH-pq_E76-MImOJ-13" target="YHERiSH-pq_E76-MImOJ-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-13" value="登录/注册" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-6">
+          <mxGeometry x="59.999999999999545" y="90" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-6" source="YHERiSH-pq_E76-MImOJ-16" target="YHERiSH-pq_E76-MImOJ-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-16" value="立即推广" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-6">
+          <mxGeometry x="59.999999999999545" y="150" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-6" source="YHERiSH-pq_E76-MImOJ-18" target="YHERiSH-pq_E76-MImOJ-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-18" value="是否实名" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-6">
+          <mxGeometry x="64.99999999999955" y="210" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-6" source="YHERiSH-pq_E76-MImOJ-20" target="YHERiSH-pq_E76-MImOJ-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-20" value="实名认证" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-6">
+          <mxGeometry x="59.999999999999545" y="290" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-28" value="推广海报" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-6">
+          <mxGeometry x="59.999999999999545" y="360" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-7" value="智融官网" style="swimlane;startSize=20;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-5">
+          <mxGeometry x="210" y="20" width="168.99999999999955" height="780" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-27" value="实名认证&lt;br&gt;1.三要素认证&lt;br&gt;2.人脸识别验证" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-7">
+          <mxGeometry x="-21.000000000000455" y="240" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-7" source="YHERiSH-pq_E76-MImOJ-30" target="YHERiSH-pq_E76-MImOJ-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-30" value="用户扫码申请" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-7">
+          <mxGeometry x="39.499999999999545" y="360" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-7" source="YHERiSH-pq_E76-MImOJ-35" target="YHERiSH-pq_E76-MImOJ-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-35" value="意向提交" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-7">
+          <mxGeometry x="39.499999999999545" y="430" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-7" source="YHERiSH-pq_E76-MImOJ-38" target="YHERiSH-pq_E76-MImOJ-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-38" value="提交进件到机构" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-7">
+          <mxGeometry x="39.499999999999545" y="500" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-40" value="金融机构放款" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-7">
+          <mxGeometry x="39.499999999999545" y="570" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-8" value="结算系统" style="swimlane;startSize=20;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-5">
+          <mxGeometry x="378.99999999999955" y="20" width="151" height="780" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-8" source="YHERiSH-pq_E76-MImOJ-42" target="YHERiSH-pq_E76-MImOJ-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-42" value="每日定期结算" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-8">
+          <mxGeometry x="30.5" y="570" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-45" value="生成结算单" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-8">
+          <mxGeometry x="30.5" y="640" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-9" value="运营平台" style="swimlane;startSize=20;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-5">
+          <mxGeometry x="529.9999999999995" y="20" width="120" height="780" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-10" value="上上签" style="swimlane;startSize=20;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-5">
+          <mxGeometry x="649.9999999999995" y="20" width="120" height="780" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-22" value="实名认证" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-10">
+          <mxGeometry x="14.999999999999545" y="290" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-11" value="薪福社" style="swimlane;startSize=20;html=1;" vertex="1" parent="YHERiSH-pq_E76-MImOJ-5">
+          <mxGeometry x="769.9999999999995" y="20" width="120" height="780" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-5" source="YHERiSH-pq_E76-MImOJ-20" target="YHERiSH-pq_E76-MImOJ-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-24" value="异步电子合同签订" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="YHERiSH-pq_E76-MImOJ-23">
+          <mxGeometry x="-0.3839" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-5" source="YHERiSH-pq_E76-MImOJ-28" target="YHERiSH-pq_E76-MImOJ-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-32" value="分享给企业主" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="YHERiSH-pq_E76-MImOJ-31">
+          <mxGeometry x="-0.2161" y="1" relative="1" as="geometry">
+            <mxPoint x="11" y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="YHERiSH-pq_E76-MImOJ-5" source="YHERiSH-pq_E76-MImOJ-40" target="YHERiSH-pq_E76-MImOJ-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YHERiSH-pq_E76-MImOJ-44" value="每日结算" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="YHERiSH-pq_E76-MImOJ-43">
+          <mxGeometry x="-0.211" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
       </root>
